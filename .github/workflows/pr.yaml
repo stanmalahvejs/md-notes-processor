@@ -1,0 +1,38 @@
+name: pr
+
+on:
+  pull_request:
+
+env:
+  TEST_TAG: stanmalahvejs/md-notes-processor:test
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r dev-requirements.txt
+
+      - name: Test
+        run: |
+          pytest image-tests/image-tests.py
