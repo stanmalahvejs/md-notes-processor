@@ -9,7 +9,7 @@ on:
 env:
   SHOULD_PUSH_TAG: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
   DOCKER_IMAGE: stanmalahvejs/md-notes-processor
-  TEST_TAG: $${ env.DOCKER_IMAGE }:test
+  TEST_TAG: ${{ env.DOCKER_IMAGE }}:test
 
 jobs:
   docker:
