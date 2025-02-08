@@ -9,7 +9,6 @@ on:
 env:
   SHOULD_PUSH_TAG: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
   DOCKER_IMAGE: stanmalahvejs/md-notes-processor
-  TEST_TAG: ${{ env.DOCKER_IMAGE }}:test
 
 jobs:
   docker:
@@ -26,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
-          tags: ${{ env.TEST_TAG }}
+          tags: ${{ env.DOCKER_IMAGE }}:test
 
       - uses: actions/checkout@v4
 
